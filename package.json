@@ -1,0 +1,30 @@
+{
+  "name": "our-line-in-time",
+  "version": "1.0.0",
+  "description": "Open-source personal and family memory preservation platform",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo build",
+    "build:analyze": "turbo build:analyze",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "test:coverage": "turbo test:coverage",
+    "clean": "turbo clean",
+    "type-check": "turbo type-check",
+    "performance:check": "echo '🔍 Checking performance metrics...' && curl -s http://localhost:3001/api/performance || echo '⚠️ API not running - start with npm run dev'"
+  },
+  "devDependencies": {
+    "turbo": "^1.10.0",
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}

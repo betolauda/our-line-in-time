@@ -1,0 +1,29 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+COPY turbo.json ./
+COPY apps/api/package*.json ./apps/api/
+COPY packages/shared/package*.json ./packages/shared/
+
+# Install dependencies
+RUN npm ci
+
+# Copy source code
+COPY apps/api ./apps/api
+COPY packages/shared ./packages/shared
+COPY tsconfig.json ./
+
+# Build shared package
+RUN npm run build --workspace=@our-line-in-time/shared
+
+# Build API
+RUN npm run build --workspace=@our-line-in-time/api
+
+# Expose port
+EXPOSE 3001
+
+# Start the application
+CMD ["npm", "run", "start", "--workspace=@our-line-in-time/api"]
