@@ -22,6 +22,7 @@ Your PRD indicates this is a greenfield project with self-hosting requirements a
 | Date | Version | Description | Author |
 |------|---------|-------------|---------|
 | 2025-01-13 | 1.0 | Initial architecture design | Winston (Architect) |
+| 2025-09-15 | 1.1 | Updated with actual project implementation | Updated by Claude Code |
 
 ---
 
@@ -29,7 +30,7 @@ Your PRD indicates this is a greenfield project with self-hosting requirements a
 
 ### Technical Summary
 
-Our Line in Time employs a **privacy-first, self-hosted fullstack architecture** with a React-based Progressive Web App frontend and Node.js backend, utilizing PostgreSQL with PostGIS extensions for multimedia + geographic + temporal data storage. The system follows a **monorepo structure** deployed via Docker containers, enabling family members to collaborate on memory preservation while maintaining complete data sovereignty. Key integration points include real-time WebSocket connections for collaborative editing, S3-compatible object storage for multimedia assets, and OpenStreetMap integration for geographical context, all designed to scale progressively from single-user (Milestone 1) to multi-generational family collaboration (Milestone 8).
+Our Line in Time employs a **privacy-first, self-hosted fullstack architecture** with a Next.js 15 frontend and Express.js backend, utilizing PostgreSQL with PostGIS extensions for multimedia + geographic + temporal data storage. The system follows a **Turbo monorepo structure** with npm workspaces, featuring shared TypeScript packages for type safety and consistency across the stack. The platform supports multimedia handling with EXIF extraction, MinIO object storage, and Redis caching, all deployed via Docker containers to enable family members to collaborate on memory preservation while maintaining complete data sovereignty.
 
 ### Platform and Infrastructure Choice
 
@@ -39,9 +40,11 @@ Our Line in Time employs a **privacy-first, self-hosted fullstack architecture**
 
 ### Repository Structure
 
-**Structure:** Monorepo with shared packages
-**Monorepo Tool:** npm workspaces (simple, widely supported)
-**Package Organization:** Apps (web, api) + Packages (shared types, UI components, utilities)
+**Structure:** Turbo monorepo with npm workspaces
+**Monorepo Tool:** Turbo for build orchestration with npm workspaces
+**Package Organization:**
+- **apps/**: `@our-line-in-time/web` (Next.js), `@our-line-in-time/api` (Express.js)
+- **packages/**: `@our-line-in-time/shared` (TypeScript types/schemas), `@our-line-in-time/ui` (React components)
 
 ### High Level Architecture Diagram
 
@@ -100,9 +103,9 @@ graph TB
 | Category | Technology | Version | Purpose | Rationale |
 |----------|------------|---------|---------|-----------|
 | **Frontend Language** | TypeScript | 5.x | Type-safe frontend development | Essential for shared types across multimedia/geographic data models |
-| **Frontend Framework** | Next.js | 14.x | React framework with SSR/SSG | File-based routing, built-in optimization, excellent Docker deployment |
-| **UI Component Library** | Shadcn/ui + Radix | Latest | Accessible component system | Unstyled, customizable, excellent for multi-generational UX |
-| **State Management** | Zustand | 4.x | Lightweight state management | Simple for solo dev, handles real-time collaboration state |
+| **Frontend Framework** | Next.js | 15.5.x | React framework with SSR/SSG | App Router, built-in optimization, excellent Docker deployment |
+| **UI Component Library** | Radix UI + Tailwind | Latest | Accessible component system | Unstyled, customizable, excellent for multi-generational UX |
+| **State Management** | Zustand | 5.x | Lightweight state management | Simple for solo dev, handles real-time collaboration state |
 | **Backend Language** | TypeScript | 5.x | Type-safe backend development | Shared types with frontend, excellent Node.js ecosystem |
 | **Backend Framework** | Express.js | 4.x | Minimal Node.js web framework | Battle-tested, extensive middleware, perfect for REST APIs |
 | **API Style** | REST + WebSockets | N/A | HTTP APIs + real-time updates | REST for CRUD, WebSockets for collaborative editing |
@@ -113,13 +116,31 @@ graph TB
 | **Frontend Testing** | Vitest + Testing Library | Latest | Unit and integration testing | Fast, modern testing for React components |
 | **Backend Testing** | Jest + Supertest | Latest | API and service testing | Comprehensive backend testing with database mocking |
 | **E2E Testing** | Playwright | Latest | End-to-end testing | Multi-browser family workflow testing |
-| **Build Tool** | npm | 10.x | Package management and scripts | Simple, reliable, excellent workspace support |
+| **Build Tool** | Turbo + npm | 2.5.6 + 10.x | Monorepo build orchestration | Efficient caching and parallel execution |
 | **Bundler** | Next.js built-in | N/A | Frontend bundling and optimization | Integrated with Next.js, optimized for production |
 | **IaC Tool** | Docker Compose | 2.x | Container orchestration | Simple multi-container deployment for families |
 | **CI/CD** | GitHub Actions | N/A | Automated testing and deployment | Free for open source, excellent Docker integration |
 | **Monitoring** | Docker logs + Simple Analytics | N/A | Basic monitoring for families | Lightweight, privacy-focused, sufficient for family use |
 | **Logging** | Winston | 3.x | Structured application logging | Configurable, reliable, good Docker integration |
-| **CSS Framework** | Tailwind CSS | 3.x | Utility-first styling | Rapid UI development, excellent responsive design |
+| **CSS Framework** | Tailwind CSS | 4.x | Utility-first styling | Rapid UI development, excellent responsive design |
+
+### Version Stability Recommendations
+
+Based on current release status (as of September 2025):
+
+**✅ Stable for Production:**
+- **Next.js 15.5.x**: Fully stable and production-ready
+- **TypeScript 5.x**: Mature and stable
+- **Express.js 4.x**: Battle-tested and stable
+
+**⚠️ Monitor for Stability:**
+- **React 19.1.x**: Currently Release Candidate - monitor for stable release and consider React 18 LTS for production deployments until React 19 is fully stable
+- **Tailwind CSS 4.x**: Currently in Beta - suitable for development but consider stability requirements for production use. Stable release planned for early 2025
+
+**📋 Production Deployment Considerations:**
+- For mission-critical family data, consider pinning to React 18 LTS until React 19 reaches stable status
+- Tailwind CSS v4 beta provides significant performance improvements but may have breaking changes before stable release
+- All other dependencies are using stable, production-ready versions
 
 ---
 
