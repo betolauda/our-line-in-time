@@ -1,9 +1,13 @@
+// Load environment variables first - use absolute path
+import dotenv from 'dotenv';
+dotenv.config({ path: '/home/beto/Dev/proyectos/personales/our-line-in-time/.env' });
+
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import bcrypt from 'bcrypt';
 import { pool } from './database';
-import { FamilyMember } from '@our-line-in-time/shared';
+// import { FamilyMember } from '@our-line-in-time/shared';
 
 // Local strategy for login
 passport.use(new LocalStrategy(
@@ -41,11 +45,14 @@ passport.use(new LocalStrategy(
   }
 ));
 
+// Debug JWT_SECRET
+console.log('JWT_SECRET:', process.env.JWT_SECRET ? '***FOUND***' : 'MISSING');
+
 // JWT strategy for protected routes
 passport.use(new JwtStrategy(
   {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: process.env.JWT_SECRET!,
+    secretOrKey: process.env.JWT_SECRET || 'fallback-secret-key',
   },
   async (payload, done) => {
     try {

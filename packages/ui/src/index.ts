@@ -1,2 +1,2 @@
 // UI components will be exported here
-export * from './components';
+// For now, empty until we add components

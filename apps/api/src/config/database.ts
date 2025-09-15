@@ -3,7 +3,11 @@ import { createClient } from 'redis';
 
 // PostgreSQL connection
 export const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  host: 'localhost',
+  port: 5432,
+  database: 'our_line_in_time',
+  user: 'postgres',
+  password: 'postgres',
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
 });
 

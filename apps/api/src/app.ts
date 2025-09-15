@@ -1,9 +1,12 @@
+// Load environment variables FIRST before importing anything else
+import dotenv from 'dotenv';
+dotenv.config({ path: '../../.env' });
+
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import compression from 'compression';
-import dotenv from 'dotenv';
 import { connectDatabases } from './config/database';
 import { initializeStorage } from './config/storage';
 import passport from './config/passport';
@@ -12,9 +15,6 @@ import mediaRoutes from './routes/media';
 import memoryRoutes from './routes/memories';
 import exportRoutes from './routes/export';
 import PerformanceMonitor from './middleware/performance';
-
-// Load environment variables
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;

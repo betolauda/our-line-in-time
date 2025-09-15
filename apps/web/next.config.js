@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    transpilePackages: ['@our-line-in-time/shared', '@our-line-in-time/ui'],
-  },
+  transpilePackages: ['@our-line-in-time/shared', '@our-line-in-time/ui'],
   images: {
     domains: ['localhost'],
   },

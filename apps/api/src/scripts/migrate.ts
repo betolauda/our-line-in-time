@@ -1,6 +1,10 @@
+import { config } from 'dotenv';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { pool } from '../config/database';
+
+// Load environment variables
+config({ path: join(__dirname, '../../../../.env') });
 
 async function runMigrations() {
   try {

@@ -31,7 +31,7 @@ export const MediaItemSchema = z.object({
   fileSize: z.number().positive(),
   storagePath: z.string(),
   thumbnailPath: z.string().optional(),
-  extractedMetadata: z.record(z.any()),
+  extractedMetadata: z.record(z.string(), z.any()),
   uploadedBy: z.string().uuid(),
   capturedAt: z.date().optional(),
   capturedLocation: GeoPointSchema.optional(),
